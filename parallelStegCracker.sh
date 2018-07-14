@@ -99,7 +99,7 @@ parallel --no-notice --arg-sep , StegCrack_function $1 $WORDLIST_FRAGMENT_NAME ,
 # end
 unset -f StegCrack_function
 
-if [[ $(ls | grep $1.out ) ]];
+if [ -f $1.out ];
 then
         echo "INFO - file crack succeeded, check \"$1.out\" to see the hidden data in \"$1\""
         echo "INFO - the password used was: $(cat $WORDLIST_FRAGMENT_NAME)"
