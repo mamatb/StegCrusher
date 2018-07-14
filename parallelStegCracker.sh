@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # parallelStegCracker is a steganography brute-force tool that takes advantage of parallel computing
+# author - mamatb
+# location - https://gitlab.com/mamatb/parallelStegCracker.git
+
 # acknowledgement - this tool is based on Paradoxis' StegCracker (https://github.com/Paradoxis/StegCracker)
 # acknowledgement - this tool is built upon Stefan Hetzl's Steghide (https://github.com/StefanoDeVuono/steghide)
 # acknowledgement - O. Tange (2011): GNU Parallel - The Command-Line Power Tool
