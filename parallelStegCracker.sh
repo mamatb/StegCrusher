@@ -37,7 +37,7 @@ then
 fi
 
 # directory permissions check
-if [ ! -r $(pwd) -o ! -w $(pwd) ];
+if [ ! -r $PWD -o ! -w $PWD ];
 then
         echo "ERROR - you need read and write permissions in the working directory in order to use the script \"$0\""
         echo -e $USAGE
