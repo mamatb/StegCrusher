@@ -14,9 +14,9 @@ USAGE="Usage:\n\t$0 <file> <wordlist>\n\toutput file will be <file>.out in case 
 WORDLIST_FRAGMENT_NAME="$(date +%s)_splitted_"
 
 # usage check
-if [ $# != '2' ];
+if [ "$#" != "2" ];
 then
-        echo -e $USAGE
+        echo -e "$USAGE"
         exit 1
 fi
 
@@ -37,72 +37,72 @@ then
 fi
 
 # directory permissions check
-if [ ! -r $PWD -o ! -w $PWD ];
+if [ ! -r "$PWD" ] || [ ! -w "$PWD" ];
 then
         echo "ERROR - you need read and write permissions in the working directory in order to use the script \"$0\""
-        echo -e $USAGE
+        echo -e "$USAGE"
         exit 1
 fi
 
 # file permissions check
-if [ ! -f $1 -o ! -r $1 ];
+if [ ! -f "$1" ] || [ ! -r "$1" ];
 then
         echo "ERROR - the file \"$1\" passed as 1st argument either does not exist or is not accesible"
-        echo -e $USAGE
+        echo -e "$USAGE"
         exit 1
 fi
 
 # file extension check
-if [[ ! $(echo $1 | egrep ".*\.(jpg|jpeg|bmp|wav|au)$") ]]; 
+if [[ ! $(echo "$1" | grep -E ".*\.(jpg|jpeg|bmp|wav|au)$") ]]; 
 then
         echo "ERROR - the file extension used at the 1st argument \"$1\" is not supported"
         echo "INFO - supported extensions: jpg, jpeg, bmp, wav, au"
-        echo -e $USAGE
+        echo -e "$USAGE"
         exit 1
 fi
 
 # wordlist permissions check
-if [ ! -f $2 -o ! -r $2 ];
+if [ ! -f "$2" ] || [ ! -r "$2" ];
 then
         echo "ERROR - the wordlist \"$2\" passed as 2nd argument either does not exist or is not accesible"
-        echo -e $USAGE
+        echo -e "$USAGE"
         exit 1
 fi
 
 # output file check
-if [ -f $1.out ];
+if [ -f "$1.out" ];
 then
         echo "ERROR - the output file \"$1.out\" already exists!"
-        echo -e $USAGE
+        echo -e "$USAGE"
         exit 1
 fi
 
 # start
 echo "Trying to crack file \"$1\" with wordlist \"$2\" using $THREADS threads..."
-LINES_PER_THREAD="$(( $(wc -l $2 | egrep -o "^[0-9]*") / $THREADS + 1 ))"
-split -l $LINES_PER_THREAD $2 $WORDLIST_FRAGMENT_NAME
+LINES_PER_THREAD="$(( $(wc -l "$2" | grep -E -o "^[0-9]*") / THREADS + 1 ))"
+split -l "$LINES_PER_THREAD" "$2" "$WORDLIST_FRAGMENT_NAME"
 
 StegCrack_function() {
-        while read PASSWORD;
+        while read -r PASSWORD;
         do
-                if steghide extract -sf $1 -xf $1.out -p $PASSWORD -f &> /dev/null;
+                if steghide extract -sf "$1" -xf "$1.out" -p "$PASSWORD" -f &> /dev/null;
                 then
-                        echo -n $PASSWORD > $2
+                        echo -n "$PASSWORD" > "$2"
                         exit 0
                 fi
-        done < $3
+        done < "$3"
 }
 
 export -f StegCrack_function
-parallel --no-notice --arg-sep , StegCrack_function $1 $WORDLIST_FRAGMENT_NAME , $(ls $WORDLIST_FRAGMENT_NAME*)
+parallel --no-notice --arg-sep , StegCrack_function "$1" "$WORDLIST_FRAGMENT_NAME" , "$(ls $WORDLIST_FRAGMENT_NAME*)"
 
 # end
 unset -f StegCrack_function
 
-if [ -f $1.out ];
+if [ -f "$1.out" ];
 then
         echo "INFO - file crack succeeded, check \"$1.out\" to see the hidden data in \"$1\""
-        echo "INFO - the password used was: $(cat $WORDLIST_FRAGMENT_NAME)"
+        echo "INFO - the password used was: $(cat "$WORDLIST_FRAGMENT_NAME")"
         rm $WORDLIST_FRAGMENT_NAME*
         exit 0
 else
