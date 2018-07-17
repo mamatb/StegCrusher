@@ -11,7 +11,7 @@
 unalias -a
 THREADS="$(nproc)"
 USAGE="Usage:\n\t$0 <file> <wordlist>\n\toutput file will be <file>.out in case of success"
-WORDLIST_FRAGMENT_NAME="$(date +%s)_splitted_"
+WORDLIST_FRAGMENT_NAME=".parallelStegCracker_tmp_"
 
 # usage check
 if [ "$#" != "2" ];
@@ -103,10 +103,10 @@ if [ -f "$1.out" ];
 then
         echo "INFO - file crack succeeded, check \"$1.out\" to see the hidden data in \"$1\""
         echo "INFO - the password used was: $(cat "$WORDLIST_FRAGMENT_NAME")"
-        rm $WORDLIST_FRAGMENT_NAME*
+        rm -f $WORDLIST_FRAGMENT_NAME*
         exit 0
 else
         echo "ERROR - file crack failed, no hidden data found in \"$1\" using \"$2\" as wordlist"
-        rm $WORDLIST_FRAGMENT_NAME*
+        rm -f $WORDLIST_FRAGMENT_NAME*
         exit 1
 fi
