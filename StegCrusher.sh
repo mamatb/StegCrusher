@@ -86,8 +86,7 @@ then
 	exit 1
 fi
 
-# checking finished
-# stego cracking start
+# checking finished, stego cracking start
 echo "Trying to crack the stego file \"$1\" with wordlist \"$2\" using $THREADS threads..."
 
 # dictionary split to distribute the computing load (fragments will be deleted later)
