@@ -27,7 +27,7 @@ then
 fi
 
 # parallel installation check (parallel computing tool)
-if [[ ! $(which parallel) ]]; 
+if [[ ! $(which parallel) ]];
 then
 	echo "ERROR - you need to have parallel installed in order to use the script \"${0}\""
 	echo "INFO - installation in Debian-based distros: sudo apt install parallel"
@@ -35,7 +35,7 @@ then
 fi
 
 # steghide installation check (steganography tool)
-if [[ ! $(which steghide) ]]; 
+if [[ ! $(which steghide) ]];
 then
 	echo "ERROR - you need to have steghide installed in order to use the script \"${0}\""
 	echo "INFO - installation in Debian-based distros: sudo apt install steghide"
@@ -59,7 +59,7 @@ then
 fi
 
 # stego file extension check
-if [[ ! $(echo "${1}" | grep -iE "^.+\.(jpg|jpeg|bmp|wav|au)$") ]]; 
+if [[ ! "${1}" =~ ^.*\.(jpg|jpeg|bmp|wav|au)$ ]];
 then
 	echo "ERROR - the stego file extension used at the 1st argument \"${1}\" is not supported"
 	echo "INFO - supported extensions: jpg, jpeg, bmp, wav, au"
@@ -87,7 +87,7 @@ fi
 echo "Trying to crack the stego file \"${1}\" with wordlist \"${2}\" using ${THREADS} threads..."
 
 # dictionary split to distribute the computing load (fragments will be deleted later)
-LINES_PER_THREAD="$(( $(wc -l "${2}" | grep -E -o "^[0-9]*") / THREADS + 1 ))"
+LINES_PER_THREAD="$(( $(wc -l "${2}" | grep -oE "^[0-9]+") / THREADS + 1 ))"
 split -l "${LINES_PER_THREAD}" "${2}" "${WORDLIST_FRAGMENT_NAME}"
 
 # main function
@@ -113,7 +113,7 @@ StegCrusher_function() {
 
 # parallel execution
 export -f StegCrusher_function
-parallel --no-notice --arg-sep , StegCrusher_function "${1}" "${WORDLIST_FRAGMENT_NAME}" , "$(ls ${WORDLIST_FRAGMENT_NAME}*)"
+parallel --no-notice --arg-sep , StegCrusher_function "${1}" "${WORDLIST_FRAGMENT_NAME}" , "$(ls "${WORDLIST_FRAGMENT_NAME}"*)"
 
 # stego cracking end
 unset -f StegCrusher_function
@@ -124,12 +124,12 @@ if [ -f "${1}.out" ];
 then
 	echo "INFO - crack succeeded, check \"${1}.out\" to see the hidden data in the stego file \"${1}\""
 	echo "INFO - the password used was: $(cat "${WORDLIST_FRAGMENT_NAME}")"
-	rm -f ${WORDLIST_FRAGMENT_NAME}*
+	rm -f "${WORDLIST_FRAGMENT_NAME}"*
 	exit 0
 
 # cracking failure
 else
 	echo "ERROR - crack failed, no hidden data found in the stego file \"${1}\" using \"${2}\" as wordlist"
-	rm -f ${WORDLIST_FRAGMENT_NAME}*
+	rm -f "${WORDLIST_FRAGMENT_NAME}"*
 	exit 1
 fi
