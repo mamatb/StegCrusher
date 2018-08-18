@@ -76,7 +76,7 @@ then
 fi
 
 # output file existence check
-if [ -f "${1}.out" ];
+if [ -e "${1}.out" ];
 then
 	echo "ERROR - the output file \"${1}.out\" already exists!"
 	echo -e "${USAGE}"
