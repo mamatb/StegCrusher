@@ -13,7 +13,7 @@
 
 
 # number of threads = number of available processing units
-THREADS="$(nproc)"
+THREADS=$(nproc)
 
 # other variable declarations
 USAGE="Usage:\n\t${0} <stego_file> <wordlist_file>\n\toutput file will be <stego_file>.out in case of success"
@@ -27,7 +27,7 @@ then
 fi
 
 # parallel installation check (parallel computing tool)
-if [ ! $(which parallel) ];
+if [ ! "$(which parallel)" ];
 then
 	echo "ERROR - you need to have parallel installed in order to use the script \"${0}\""
 	echo "INFO - installation in Debian-based distros: sudo apt install parallel"
@@ -35,7 +35,7 @@ then
 fi
 
 # steghide installation check (steganography tool)
-if [ ! $(which steghide) ];
+if [ ! "$(which steghide)" ];
 then
 	echo "ERROR - you need to have steghide installed in order to use the script \"${0}\""
 	echo "INFO - installation in Debian-based distros: sudo apt install steghide"
