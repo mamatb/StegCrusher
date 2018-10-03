@@ -90,7 +90,7 @@ fi
 echo "Trying to crack the stego file \"${1}\" with wordlist \"${2}\" using ${THREADS} threads..."
 
 # dictionary split to distribute the computing load (fragments will be deleted later)
-LINES_PER_THREAD="$(( $(wc -l "${2}" | grep -oE "^[0-9]+") / THREADS + 1 ))"
+LINES_PER_THREAD="$(( $(wc -l "${2}" | awk '{print $1}') / THREADS + 1 ))"
 split -l "${LINES_PER_THREAD}" "${2}" "${WORDLIST_FRAGMENT_NAME}"
 
 # main function
