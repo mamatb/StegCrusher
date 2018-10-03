@@ -16,13 +16,16 @@
 THREADS=$(nproc)
 
 # other variable declarations
-USAGE="Usage:\n\t${0} <stego_file> <wordlist_file>\n\toutput file will be <stego_file>.out in case of success"
 WORDLIST_FRAGMENT_NAME=".StegCrusher_tmp_"
+
+print_usage() {
+	echo -e "Usage:\n\t${0} <stego_file> <wordlist_file>\n\toutput file will be <stego_file>.out in case of success"
+}
 
 # arguments usage check
 if [ "${#}" != "2" ];
 then
-	echo -e "${USAGE}"
+	print_usage
 	exit 1
 fi
 
@@ -46,7 +49,7 @@ fi
 if [ ! -r "${PWD}" ] || [ ! -w "${PWD}" ];
 then
 	echo "ERROR - you need read and write permissions in the working directory in order to use the script \"${0}\""
-	echo -e "${USAGE}"
+	print_usage
 	exit 1
 fi
 
@@ -54,7 +57,7 @@ fi
 if [ ! -f "${1}" ] || [ ! -r "${1}" ];
 then
 	echo "ERROR - the stego file \"${1}\" passed as 1st argument either does not exist or is not readable"
-	echo -e "${USAGE}"
+	print_usage
 	exit 1
 fi
 
@@ -63,7 +66,7 @@ if [[ ! "${1}" =~ ^.*\.(jpg|jpeg|bmp|wav|au)$ ]];
 then
 	echo "ERROR - the stego file extension used at the 1st argument \"${1}\" is not supported"
 	echo "INFO - supported extensions: jpg, jpeg, bmp, wav, au"
-	echo -e "${USAGE}"
+	print_usage
 	exit 1
 fi
 
@@ -71,7 +74,7 @@ fi
 if [ ! -f "${2}" ] || [ ! -r "${2}" ];
 then
 	echo "ERROR - the wordlist file \"${2}\" passed as 2nd argument either does not exist or is not accesible"
-	echo -e "${USAGE}"
+	print_usage
 	exit 1
 fi
 
@@ -79,7 +82,7 @@ fi
 if [ -e "${1}.out" ];
 then
 	echo "ERROR - the output file \"${1}.out\" already exists!"
-	echo -e "${USAGE}"
+	print_usage
 	exit 1
 fi
 
