@@ -15,9 +15,8 @@
 # number of threads = number of available processing units
 THREADS=$(nproc)
 
-# other variable declarations
+# other declarations
 WORDLIST_FRAGMENT_NAME=".StegCrusher_tmp_"
-
 print_usage() {
 	echo -e "Usage:\n\t${0} <stego_file> <wordlist_file>\n\toutput file will be <stego_file>.out in case of success"
 }
