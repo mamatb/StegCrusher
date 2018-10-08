@@ -72,7 +72,7 @@ fi
 # wordlist file permissions check
 if [ ! -f "${2}" ] || [ ! -r "${2}" ];
 then
-	echo "ERROR - the wordlist file \"${2}\" passed as 2nd argument either does not exist or is not accesible"
+	echo "ERROR - the wordlist file \"${2}\" passed as 2nd argument either does not exist or is not readable"
 	print_usage
 	exit 1
 fi
