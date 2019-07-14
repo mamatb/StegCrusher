@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # StegCrusher is a steganography brute-force tool that takes advantage of parallel computing
 # author - mamatb
@@ -8,6 +8,14 @@
 # acknowledgement - this tool is built upon Stefan Hetzl's Steghide (https://github.com/StefanoDeVuono/steghide)
 # acknowledgement - O. Tange (2011): GNU Parallel - The Command-Line Power Tool
 
+# TODO
+#
+# readme.md with screenshots and license
+# replace file extension check with magic numbers check
+# save dictionary fragments in the /tmp directory
+# show progress while cracking
+# use colored output
+# replace GNU Parallel with built-in parallel mechanisms
 
 ################
 
