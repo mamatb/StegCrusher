@@ -17,9 +17,6 @@
 # use colored output
 # replace GNU Parallel with built-in parallel mechanisms
 
-################
-
-
 # number of threads = number of available processing units
 THREADS=$(nproc)
 
