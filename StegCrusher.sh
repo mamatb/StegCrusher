@@ -94,8 +94,8 @@ fi
 echo "Trying to crack the stego file \"${1}\" with wordlist \"${2}\" using ${THREADS} threads..."
 
 # dictionary split to distribute the computing load (fragments will be deleted later)
-LINES_PER_THREAD="$(( $(wc -l "${2}" | awk '{print $1}') / THREADS + 1 ))"
-split -l "${LINES_PER_THREAD}" "${2}" "${WORDLIST_FRAGMENT_NAME}"
+LINES_PER_THREAD="$(( $(wc --lines "${2}" | awk '{print $1}') / THREADS + 1 ))"
+split --lines="${LINES_PER_THREAD}" "${2}" "${WORDLIST_FRAGMENT_NAME}"
 
 # main function
 StegCrusher_function() {
@@ -109,7 +109,7 @@ StegCrusher_function() {
 
 		# exit if the password is found
 		else
-			if steghide extract -sf "${1}" -xf "${1}.out" -p "${PASSWORD}" -f &> /dev/null;
+			if steghide extract --stegofile "${1}" --extractfile "${1}.out" --passphrase "${PASSWORD}" --force --quiet;
 			then
 				echo -n "${PASSWORD}" > "${2}"
 				exit 0
@@ -131,12 +131,12 @@ if [ -f "${1}.out" ];
 then
 	echo "INFO - crack succeeded, check \"${1}.out\" to see the hidden data in the stego file \"${1}\""
 	echo "INFO - the password used was: $(cat "${WORDLIST_FRAGMENT_NAME}")"
-	rm -f "${WORDLIST_FRAGMENT_NAME}"*
+	rm --force "${WORDLIST_FRAGMENT_NAME}"*
 	exit 0
 
 # cracking failure
 else
 	echo "ERROR - crack failed, no hidden data found in the stego file \"${1}\" using \"${2}\" as wordlist"
-	rm -f "${WORDLIST_FRAGMENT_NAME}"*
+	rm --force "${WORDLIST_FRAGMENT_NAME}"*
 	exit 1
 fi
