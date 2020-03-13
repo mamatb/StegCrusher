@@ -37,7 +37,7 @@ fi
 # parallel installation check (parallel computing tool)
 if ! which 'parallel' &> '/dev/null'
 then
-	echo 'ERROR - you need to have parallel installed in order to use the script "'"${0}"'"'
+	echo 'ERROR - you need to have parallel installed in order to use the script "'"${0}"'"' >&2
 	echo 'INFO - installation in Debian-based distros: sudo apt install parallel'
 	exit 1
 fi
@@ -45,7 +45,7 @@ fi
 # steghide installation check (steganography tool)
 if ! which 'steghide' &> '/dev/null'
 then
-	echo 'ERROR - you need to have steghide installed in order to use the script "'"${0}"'"'
+	echo 'ERROR - you need to have steghide installed in order to use the script "'"${0}"'"' >&2
 	echo 'INFO - installation in Debian-based distros: sudo apt install steghide'
 	exit 1
 fi
@@ -53,7 +53,7 @@ fi
 # working directory permissions check
 if [ ! -r "${PWD}" ] || [ ! -w "${PWD}" ]
 then
-	echo 'ERROR - you need read and write permissions in the working directory in order to use the script "'"${0}"'"'
+	echo 'ERROR - you need read and write permissions in the working directory in order to use the script "'"${0}"'"' >&2
 	print_usage
 	exit 1
 fi
@@ -61,7 +61,7 @@ fi
 # stego file permissions check
 if [ ! -f "${1}" ] || [ ! -r "${1}" ]
 then
-	echo 'ERROR - the stego file "'"${1}"'" passed as 1st argument either does not exist or is not readable'
+	echo 'ERROR - the stego file "'"${1}"'" passed as 1st argument either does not exist or is not readable' >&2
 	print_usage
 	exit 1
 fi
@@ -69,7 +69,7 @@ fi
 # stego file extension check
 if [[ ! "${1}" =~ ^.*\.(jpg|jpeg|bmp|wav|au)$ ]]
 then
-	echo 'ERROR - the stego file extension used at the 1st argument "'"${1}"'" is not supported'
+	echo 'ERROR - the stego file extension used at the 1st argument "'"${1}"'" is not supported' >&2
 	echo 'INFO - supported extensions: jpg, jpeg, bmp, wav, au'
 	print_usage
 	exit 1
@@ -78,7 +78,7 @@ fi
 # wordlist file permissions check
 if [ ! -f "${2}" ] || [ ! -r "${2}" ]
 then
-	echo 'ERROR - the wordlist file "'"${2}"'" passed as 2nd argument either does not exist or is not readable'
+	echo 'ERROR - the wordlist file "'"${2}"'" passed as 2nd argument either does not exist or is not readable' >&2
 	print_usage
 	exit 1
 fi
@@ -86,7 +86,7 @@ fi
 # output file existence check
 if [ -e "${1}.out" ]
 then
-	echo 'ERROR - the output file "'"${1}.out"'" already exists!'
+	echo 'ERROR - the output file "'"${1}.out"'" already exists!' >&2
 	print_usage
 	exit 1
 fi
@@ -137,7 +137,7 @@ then
 
 # cracking failure
 else
-	echo 'ERROR - crack failed, no hidden data found in the stego file "'"${1}"'" using "'"${2}"'" as wordlist'
+	echo 'ERROR - crack failed, no hidden data found in the stego file "'"${1}"'" using "'"${2}"'" as wordlist' >&2
 	rm --force "${WORDLIST_FRAGMENT_NAME}"*
 	exit 1
 fi
