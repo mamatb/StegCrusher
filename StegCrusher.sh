@@ -19,10 +19,10 @@
 # parse arguments with getops
 
 # number of threads = number of available processing units
-delcare -i THREADS="$(nproc)"
+delcare -ir THREADS="$(nproc)"
 
 # other declarations
-WORDLIST_FRAGMENT_NAME='.StegCrusher_tmp_'
+readonly WORDLIST_FRAGMENT_NAME='.StegCrusher_tmp_'
 function print_usage()
 {
 	echo -e 'Usage:\n\t'"${0}"' <stego_file> <wordlist_file>\n\toutput file will be <stego_file>.out in case of success' >&2
