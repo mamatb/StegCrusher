@@ -19,7 +19,7 @@
 # parse arguments with getops
 
 # number of threads = number of available processing units
-THREADS=$(nproc)
+THREADS="$(nproc)"
 
 # other declarations
 WORDLIST_FRAGMENT_NAME='.StegCrusher_tmp_'
@@ -96,7 +96,7 @@ fi
 echo 'Trying to crack the stego file "'"${1}"'" with wordlist "'"${2}"'" using '"${THREADS}"' threads...' >&2
 
 # dictionary split to distribute the computing load (fragments will be deleted later)
-LINES_PER_THREAD="$(( $(wc --lines "${2}" | awk '{print $1}') / THREADS + 1 ))"
+LINES_PER_THREAD="$(( "$(wc --lines "${2}" | awk '{print $1}')" / THREADS + 1 ))"
 split --lines="${LINES_PER_THREAD}" "${2}" "${WORDLIST_FRAGMENT_NAME}"
 
 # main function
