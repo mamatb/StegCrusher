@@ -19,7 +19,7 @@
 # parse arguments with getops
 
 # number of threads = number of available processing units
-THREADS="$(nproc)"
+delcare -i THREADS="$(nproc)"
 
 # other declarations
 WORDLIST_FRAGMENT_NAME='.StegCrusher_tmp_'
