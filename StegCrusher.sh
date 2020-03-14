@@ -24,7 +24,7 @@ THREADS=$(nproc)
 # other declarations
 WORDLIST_FRAGMENT_NAME='.StegCrusher_tmp_'
 print_usage() {
-	echo -e 'Usage:\n\t'"${0}"' <stego_file> <wordlist_file>\n\toutput file will be <stego_file>.out in case of success'
+	echo -e 'Usage:\n\t'"${0}"' <stego_file> <wordlist_file>\n\toutput file will be <stego_file>.out in case of success' >&2
 }
 
 # arguments usage check
@@ -38,7 +38,7 @@ fi
 if ! which 'parallel' &> '/dev/null'
 then
 	echo 'ERROR - you need to have parallel installed in order to use the script "'"${0}"'"' >&2
-	echo 'INFO - installation in Debian-based distros: sudo apt install parallel'
+	echo 'INFO - installation in Debian-based distros: sudo apt install parallel' >&2
 	exit 1
 fi
 
@@ -46,7 +46,7 @@ fi
 if ! which 'steghide' &> '/dev/null'
 then
 	echo 'ERROR - you need to have steghide installed in order to use the script "'"${0}"'"' >&2
-	echo 'INFO - installation in Debian-based distros: sudo apt install steghide'
+	echo 'INFO - installation in Debian-based distros: sudo apt install steghide' >&2
 	exit 1
 fi
 
@@ -70,7 +70,7 @@ fi
 if [[ ! "${1}" =~ ^.*\.(jpg|jpeg|bmp|wav|au)$ ]]
 then
 	echo 'ERROR - the stego file extension used at the 1st argument "'"${1}"'" is not supported' >&2
-	echo 'INFO - supported extensions: jpg, jpeg, bmp, wav, au'
+	echo 'INFO - supported extensions: jpg, jpeg, bmp, wav, au' >&2
 	print_usage
 	exit 1
 fi
@@ -92,7 +92,7 @@ then
 fi
 
 # checking finished, stego cracking start
-echo 'Trying to crack the stego file "'"${1}"'" with wordlist "'"${2}"'" using '"${THREADS}"' threads...'
+echo 'Trying to crack the stego file "'"${1}"'" with wordlist "'"${2}"'" using '"${THREADS}"' threads...' >&2
 
 # dictionary split to distribute the computing load (fragments will be deleted later)
 LINES_PER_THREAD="$(( $(wc --lines "${2}" | awk '{print $1}') / THREADS + 1 ))"
@@ -130,8 +130,8 @@ if [ -f "${1}.out" ]
 
 # cracking success
 then
-	echo 'INFO - crack succeeded, check "'"${1}.out"'" to see the hidden data in the stego file "'"${1}"'"'
-	echo 'INFO - the password used was: '"$(cat "${WORDLIST_FRAGMENT_NAME}")"
+	echo 'INFO - crack succeeded, check "'"${1}.out"'" to see the hidden data in the stego file "'"${1}"'"' >&2
+	echo 'INFO - the password used was: '"$(cat "${WORDLIST_FRAGMENT_NAME}")" >&2
 	rm --force "${WORDLIST_FRAGMENT_NAME}"*
 	exit 0
 
