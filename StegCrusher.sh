@@ -23,7 +23,7 @@ delcare -i THREADS="$(nproc)"
 
 # other declarations
 WORDLIST_FRAGMENT_NAME='.StegCrusher_tmp_'
-print_usage()
+function print_usage()
 {
 	echo -e 'Usage:\n\t'"${0}"' <stego_file> <wordlist_file>\n\toutput file will be <stego_file>.out in case of success' >&2
 }
@@ -100,7 +100,7 @@ LINES_PER_THREAD="$(( "$(wc --lines "${2}" | awk '{print $1}')" / THREADS + 1 ))
 split --lines="${LINES_PER_THREAD}" "${2}" "${WORDLIST_FRAGMENT_NAME}"
 
 # main function
-StegCrusher_function()
+function StegCrusher_main()
 {
 	while read -r PASSWORD;
 	do
@@ -122,11 +122,11 @@ StegCrusher_function()
 }
 
 # parallel execution
-export -f StegCrusher_function
-parallel --no-notice --arg-sep , StegCrusher_function "${1}" "${WORDLIST_FRAGMENT_NAME}" , "$(ls "${WORDLIST_FRAGMENT_NAME}"*)"
+export -f StegCrusher_main
+parallel --no-notice --arg-sep , StegCrusher_main "${1}" "${WORDLIST_FRAGMENT_NAME}" , "$(ls "${WORDLIST_FRAGMENT_NAME}"*)"
 
 # stego cracking end
-unset -f StegCrusher_function
+unset -f StegCrusher_main
 
 if [ -f "${1}.out" ]
 
