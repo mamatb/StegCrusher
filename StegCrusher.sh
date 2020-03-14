@@ -29,7 +29,7 @@ print_usage()
 }
 
 # arguments usage check
-if [ "${#}" != '2' ]
+if [ ${#} -ne 2 ]
 then
 	print_usage
 	exit 1
