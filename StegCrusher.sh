@@ -102,7 +102,7 @@ split --lines="${LINES_PER_THREAD}" "${2}" "${WORDLIST_FRAGMENT_NAME}"
 # main function
 function StegCrusher_main()
 {
-	while read -r PASSWORD;
+	while read -r password;
 	do
 
 		# exit if the password has already been found by other thread
@@ -112,9 +112,9 @@ function StegCrusher_main()
 
 		# exit if the password is found
 		else
-			if steghide 'extract' --stegofile "${1}" --extractfile "${1}.out" --passphrase "${PASSWORD}" --force --quiet
+			if steghide 'extract' --stegofile "${1}" --extractfile "${1}.out" --passphrase "${password}" --force --quiet
 			then
-				echo -n "${PASSWORD}" > "${2}"
+				echo -n "${password}" > "${2}"
 				exit 0
 			fi
 		fi
