@@ -2,7 +2,7 @@
 
 # StegCrusher is a steganography brute-force tool that takes advantage of parallel computing
 # author - mamatb (t.me/m_amatb)
-# location - https://gitlab.com/mamatb/StegCrusher
+# location - https://github.com/mamatb/StegCrusher
 
 # acknowledgement - this tool is based on Paradoxis' StegCracker (https://github.com/Paradoxis/StegCracker)
 # acknowledgement - this tool is built upon Stefan Hetzl's Steghide (https://github.com/StefanoDeVuono/steghide)
