@@ -39,7 +39,7 @@ fi
 # parallel installation check (parallel computing tool)
 if ! which 'parallel' &> '/dev/null'
 then
-    echo 'ERROR - you need to have parallel installed in order to use the script "'"${0}"'"' >&2
+    echo 'ERROR - you need to have parallel installed in order to use "'"${0}"'"' >&2
     echo 'INFO - installation in Debian-based distros: sudo apt install parallel' >&2
     exit 1
 fi
@@ -47,7 +47,7 @@ fi
 # steghide installation check (steganography tool)
 if ! which 'steghide' &> '/dev/null'
 then
-    echo 'ERROR - you need to have steghide installed in order to use the script "'"${0}"'"' >&2
+    echo 'ERROR - you need to have steghide installed in order to use "'"${0}"'"' >&2
     echo 'INFO - installation in Debian-based distros: sudo apt install steghide' >&2
     exit 1
 fi
@@ -55,7 +55,7 @@ fi
 # working directory permissions check
 if [ ! -r "${PWD}" ] || [ ! -w "${PWD}" ]
 then
-    echo 'ERROR - you need read and write permissions in the working directory in order to use the script "'"${0}"'"' >&2
+    echo 'ERROR - you need read and write permissions in the working directory in order to use "'"${0}"'"' >&2
     print_usage
     exit 1
 fi
