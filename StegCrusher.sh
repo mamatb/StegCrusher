@@ -113,7 +113,7 @@ function StegCrusher_main()
 
         # exit if the password is found
         else
-            if steghide 'extract' --stegofile "${1}" --extractfile "${1}.out" --passphrase "${password}" --force --quiet
+            if steghide extract --stegofile "${1}" --extractfile "${1}.out" --passphrase "${password}" --force --quiet
             then
                 echo -n "${password}" > "${2}"
                 exit 0
