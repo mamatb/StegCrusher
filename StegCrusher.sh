@@ -124,7 +124,7 @@ function StegCrusher_main()
 
 # parallel execution
 export -f StegCrusher_main
-parallel --no-notice --arg-sep , StegCrusher_main "${1}" "${WORDLIST_FRAGMENT_NAME}" , "$(ls "${WORDLIST_FRAGMENT_NAME}"*)"
+ls "${WORDLIST_FRAGMENT_NAME}"* | xargs parallel --no-notice --arg-sep , StegCrusher_main "${1}" "${WORDLIST_FRAGMENT_NAME}" ,
 
 # stego cracking end
 unset -f StegCrusher_main
@@ -134,7 +134,7 @@ if [ -f "${1}.out" ]
 # cracking success
 then
     echo 'INFO - crack succeeded, check "'"${1}.out"'" to see the hidden data in the stego file "'"${1}"'"' >&2
-    echo 'INFO - the password used was: '"$(cat "${WORDLIST_FRAGMENT_NAME}")" >&2
+    cat "${WORDLIST_FRAGMENT_NAME}" | xargs echo 'INFO - the password used was: ' >&2
     rm --force "${WORDLIST_FRAGMENT_NAME}"*
     exit 0
 
