@@ -97,7 +97,7 @@ fi
 echo 'Trying to crack the stego file "'"${1}"'" with wordlist "'"${2}"'" using '"${THREADS}"' threads...' >&2
 
 # dictionary split to distribute the computing load (fragments will be deleted later)
-declare -ir LINES_PER_THREAD="$(wc --lines "${2}" | cut --delimiter=' ' --fields='1' | xargs -I {} bash -c 'echo $(({} / THREADS + 1))')"
+declare -ir LINES_PER_THREAD="$(wc --lines "${2}" | cut --delimiter=' ' --fields='1' | xargs -I {} bash -c 'echo $(( {} / THREADS + 1 ))')"
 split --lines="${LINES_PER_THREAD}" "${2}" "${WORDLIST_FRAGMENT_NAME}"
 
 # main function
