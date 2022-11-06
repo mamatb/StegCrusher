@@ -18,7 +18,6 @@
 # use colored output
 # replace GNU Parallel with built-in parallel mechanisms
 # parse arguments with getops
-# s/which/command -v/
 
 # number of threads = number of available processing units
 declare -ir THREADS="$(nproc)"
