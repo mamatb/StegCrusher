@@ -38,7 +38,7 @@ then
 fi
 
 # parallel installation check (parallel computing tool)
-if ! which 'parallel' &> '/dev/null'
+if ! command -v 'parallel' &> '/dev/null'
 then
     echo 'ERROR - you need to have parallel installed in order to use "'"${0}"'"' >&2
     echo 'INFO - installation in Debian-based distros: sudo apt install parallel' >&2
@@ -46,7 +46,7 @@ then
 fi
 
 # steghide installation check (steganography tool)
-if ! which 'steghide' &> '/dev/null'
+if ! command -v 'steghide' &> '/dev/null'
 then
     echo 'ERROR - you need to have steghide installed in order to use "'"${0}"'"' >&2
     echo 'INFO - installation in Debian-based distros: sudo apt install steghide' >&2
