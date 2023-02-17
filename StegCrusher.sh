@@ -103,7 +103,7 @@ split --lines="${LINES_PER_THREAD}" "${2}" "${WORDLIST_FRAGMENT_NAME}"
 # main function
 function StegCrusher_main()
 {
-    while read -r password;
+    while read -r password
     do
 
         # exit if the password has already been found by other thread
