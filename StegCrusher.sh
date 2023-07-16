@@ -11,13 +11,14 @@
 
 # TODO
 #
-# readme.md
+# readme.md rework
 # replace file extension check with magic numbers check
 # save dictionary fragments in /tmp/
 # show progress while cracking
 # use colored output
 # replace GNU Parallel with built-in parallel mechanisms
 # parse arguments with getops
+# group dependency checking
 
 # number of threads = number of available processing units
 declare -ir THREADS="$(nproc)"
