@@ -28,7 +28,7 @@ readonly DEPENDENCIES=(
 
 function print_usage()
 {
-    echo -e 'Usage:\n\t'"${0}"' <stego_file> <wordlist_file>\n\toutput file will be <stego_file>.out in case of success' >&2
+    echo -e 'Usage:\n\tStegCrusher.sh <stego_file> <wordlist_file>\n\toutput file will be <stego_file>.out in case of success' >&2
 }
 
 # arguments number check
@@ -43,7 +43,7 @@ for dependency in "${DEPENDENCIES[@]}"
 do
     if ! command -v "${dependency}" &> '/dev/null'
     then
-        echo 'ERROR - you need to have '"${dependency}"' installed in order to use "'"${0}"'"' >&2
+        echo 'ERROR - you need to have '"${dependency}"' installed in order to use StegCrusher.sh' >&2
         echo 'INFO - installation in Debian-based distros: sudo apt install '"${dependency}" >&2
         exit 1
     fi
@@ -52,7 +52,7 @@ done
 # working directory permissions check
 if [ ! -r "${PWD}" ] || [ ! -w "${PWD}" ]
 then
-    echo 'ERROR - you need read and write permissions in the working directory in order to use "'"${0}"'"' >&2
+    echo 'ERROR - you need read and write permissions in the working directory in order to use StegCrusher.sh' >&2
     print_usage
     exit 1
 fi
@@ -91,7 +91,7 @@ then
 fi
 
 # checks finished, cracking start
-echo 'Trying to crack the stego file "'"${1}"'" with wordlist "'"${2}"'" using '"${THREADS}"' threads...' >&2
+echo 'Trying to crack the stego file "'"${1}"'" with wordlist "'"${2}"'" using '"${THREADS}"' threads ...' >&2
 
 # dictionary split to distribute the computing load (fragments will be deleted later)
 declare -ir LINES_PER_THREAD="$(wc --lines "${2}" | cut --delimiter=' ' --fields='1' | xargs -I {} bash -c 'echo "$(( {} / THREADS + 1 ))"')"
