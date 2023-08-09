@@ -15,43 +15,39 @@
 # replace file extension check with magic numbers check
 # save dictionary fragments in /tmp/
 # show progress while cracking
-# use colored output
 # replace GNU Parallel with built-in parallel mechanisms
 # parse arguments with getops
-# group dependency checking
 
-# number of threads = number of available processing units
-declare -ir THREADS="$(nproc)"
-
-# other declarations
+declare -ir THREADS="$(nproc)" # number of threads = number of processing units
 readonly WORDLIST_FRAGMENT_NAME='.StegCrusher_tmp_'
+
+readonly DEPENDENCIES=(
+'parallel'
+'steghide'
+)
+
 function print_usage()
 {
     echo -e 'Usage:\n\t'"${0}"' <stego_file> <wordlist_file>\n\toutput file will be <stego_file>.out in case of success' >&2
 }
 
-# arguments usage check
+# arguments number check
 if [ ${#} -ne 2 ]
 then
     print_usage
     exit 1
 fi
 
-# parallel installation check (parallel computing tool)
-if ! command -v 'parallel' &> '/dev/null'
-then
-    echo 'ERROR - you need to have parallel installed in order to use "'"${0}"'"' >&2
-    echo 'INFO - installation in Debian-based distros: sudo apt install parallel' >&2
-    exit 1
-fi
-
-# steghide installation check (steganography tool)
-if ! command -v 'steghide' &> '/dev/null'
-then
-    echo 'ERROR - you need to have steghide installed in order to use "'"${0}"'"' >&2
-    echo 'INFO - installation in Debian-based distros: sudo apt install steghide' >&2
-    exit 1
-fi
+# dependencies check
+for dependency in "${DEPENDENCIES[@]}"
+do
+    if ! command -v "${dependency}" &> '/dev/null'
+    then
+        echo 'ERROR - you need to have '"${dependency}"' installed in order to use "'"${0}"'"' >&2
+        echo 'INFO - installation in Debian-based distros: sudo apt install '"${dependency}" >&2
+        exit 1
+    fi
+done
 
 # working directory permissions check
 if [ ! -r "${PWD}" ] || [ ! -w "${PWD}" ]
@@ -94,7 +90,7 @@ then
     exit 1
 fi
 
-# checking finished, stego cracking start
+# checks finished, cracking start
 echo 'Trying to crack the stego file "'"${1}"'" with wordlist "'"${2}"'" using '"${THREADS}"' threads...' >&2
 
 # dictionary split to distribute the computing load (fragments will be deleted later)
@@ -126,9 +122,6 @@ function StegCrusher_main()
 # parallel execution
 export -f StegCrusher_main
 ls "${WORDLIST_FRAGMENT_NAME}"* | xargs parallel --no-notice --arg-sep , StegCrusher_main "${1}" "${WORDLIST_FRAGMENT_NAME}" ,
-
-# stego cracking end
-unset -f StegCrusher_main
 
 if [ -f "${1}.out" ]
 
