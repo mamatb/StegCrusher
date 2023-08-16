@@ -28,7 +28,7 @@ readonly DEPENDENCIES=(
 
 function print_usage()
 {
-    echo -e 'Usage:\n\tStegCrusher.sh <stego_file> <wordlist_file>\n\toutput file will be <stego_file>.out in case of success' >&2
+    echo -e 'Usage:\n\tStegCrusher.sh "${STEGO_FILE}" "${WORDLIST_FILE}"\n\toutput file will be "${STEGO_FILE}".out in case of success' >&2
 }
 
 # arguments number check
@@ -37,6 +37,9 @@ then
     print_usage
     exit 1
 fi
+
+readonly STEGO_FILE="${1}"
+readonly WORDLIST_FILE="${2}"
 
 # dependencies check
 for dependency in "${DEPENDENCIES[@]}"
@@ -58,44 +61,44 @@ then
 fi
 
 # stego file permissions check
-if [ ! -f "${1}" ] || [ ! -r "${1}" ]
+if [ ! -f "${STEGO_FILE}" ] || [ ! -r "${STEGO_FILE}" ]
 then
-    echo 'ERROR - the stego file "'"${1}"'" passed as 1st argument either does not exist or is not readable' >&2
+    echo 'ERROR - the stego file "'"${STEGO_FILE}"'" passed as 1st argument either does not exist or is not readable' >&2
     print_usage
     exit 1
 fi
 
 # stego file extension check
-if [[ ! "${1}" =~ ^.*\.(jpg|jpeg|bmp|wav|au)$ ]]
+if [[ ! "${STEGO_FILE}" =~ ^.*\.(jpg|jpeg|bmp|wav|au)$ ]]
 then
-    echo 'ERROR - the stego file extension used at the 1st argument "'"${1}"'" is not supported' >&2
+    echo 'ERROR - the stego file extension used at the 1st argument "'"${STEGO_FILE}"'" is not supported' >&2
     echo 'INFO - supported extensions: jpg, jpeg, bmp, wav, au' >&2
     print_usage
     exit 1
 fi
 
 # wordlist file permissions check
-if [ ! -f "${2}" ] || [ ! -r "${2}" ]
+if [ ! -f "${WORDLIST_FILE}" ] || [ ! -r "${WORDLIST_FILE}" ]
 then
-    echo 'ERROR - the wordlist file "'"${2}"'" passed as 2nd argument either does not exist or is not readable' >&2
+    echo 'ERROR - the wordlist file "'"${WORDLIST_FILE}"'" passed as 2nd argument either does not exist or is not readable' >&2
     print_usage
     exit 1
 fi
 
 # output file existence check
-if [ -e "${1}.out" ]
+if [ -e "${STEGO_FILE}.out" ]
 then
-    echo 'ERROR - the output file "'"${1}.out"'" already exists!' >&2
+    echo 'ERROR - the output file "'"${STEGO_FILE}.out"'" already exists!' >&2
     print_usage
     exit 1
 fi
 
 # checks finished, cracking start
-echo 'Trying to crack the stego file "'"${1}"'" with wordlist "'"${2}"'" using '"${THREADS}"' threads ...' >&2
+echo 'Trying to crack the stego file "'"${STEGO_FILE}"'" with wordlist "'"${WORDLIST_FILE}"'" using '"${THREADS}"' threads ...' >&2
 
 # dictionary split to distribute the computing load (fragments will be deleted later)
-declare -ir LINES_PER_THREAD="$(wc --lines "${2}" | cut --delimiter=' ' --fields='1' | xargs -I {} bash -c 'echo "$(( {} / THREADS + 1 ))"')"
-split --lines="${LINES_PER_THREAD}" "${2}" "${WORDLIST_FRAGMENT_NAME}"
+declare -ir LINES_PER_THREAD="$(wc --lines "${WORDLIST_FILE}" | cut --delimiter=' ' --fields='1' | xargs -I {} bash -c 'echo "$(( {} / THREADS + 1 ))"')"
+split --lines="${LINES_PER_THREAD}" "${WORDLIST_FILE}" "${WORDLIST_FRAGMENT_NAME}"
 
 # main function
 function StegCrusher_main()
@@ -121,20 +124,20 @@ function StegCrusher_main()
 
 # parallel execution
 export -f StegCrusher_main
-ls "${WORDLIST_FRAGMENT_NAME}"* | xargs parallel --no-notice --arg-sep , StegCrusher_main "${1}" "${WORDLIST_FRAGMENT_NAME}" ,
+ls "${WORDLIST_FRAGMENT_NAME}"* | xargs parallel --no-notice --arg-sep , StegCrusher_main "${STEGO_FILE}" "${WORDLIST_FRAGMENT_NAME}" ,
 
-if [ -f "${1}.out" ]
+if [ -f "${STEGO_FILE}.out" ]
 
 # cracking success
 then
-    echo 'INFO - crack succeeded, check "'"${1}.out"'" to see the hidden data in the stego file "'"${1}"'"' >&2
+    echo 'INFO - crack succeeded, check "'"${STEGO_FILE}.out"'" to see the hidden data in the stego file "'"${STEGO_FILE}"'"' >&2
     cat "${WORDLIST_FRAGMENT_NAME}" | xargs echo 'INFO - the password used was: ' >&2
     rm --force "${WORDLIST_FRAGMENT_NAME}"*
     exit 0
 
 # cracking failure
 else
-    echo 'ERROR - crack failed, no hidden data found in the stego file "'"${1}"'" using "'"${2}"'" as wordlist' >&2
+    echo 'ERROR - crack failed, no hidden data found in the stego file "'"${STEGO_FILE}"'" using "'"${WORDLIST_FILE}"'" as wordlist' >&2
     rm --force "${WORDLIST_FRAGMENT_NAME}"*
     exit 1
 fi
