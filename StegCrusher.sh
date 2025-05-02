@@ -9,15 +9,6 @@
 # acknowledgement - this tool is built upon Stefan Hetzl's Steghide (https://github.com/StefanoDeVuono/steghide)
 # acknowledgement - O. Tange (2011): GNU Parallel - The Command-Line Power Tool
 
-# TODO
-#
-# readme.md rework
-# replace file extension check with magic numbers check
-# save dictionary fragments in /tmp/
-# show progress while cracking
-# replace GNU Parallel with built-in parallel mechanisms
-# parse arguments with getops
-
 declare -ir THREADS="$(nproc)" # number of threads = number of processing units
 readonly WORDLIST_FRAGMENT_NAME='.StegCrusher_tmp_'
 
