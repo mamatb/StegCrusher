@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # StegCrusher is a steganography brute-force tool that takes advantage of parallel computing
+#
 # author - mamatb (t.me/m_amatb)
 # location - https://github.com/mamatb/StegCrusher
 # style guide - https://google.github.io/styleguide/shellguide.html
